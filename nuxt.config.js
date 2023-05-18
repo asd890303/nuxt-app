@@ -5,7 +5,7 @@ export default {
   },
 
   head: {
-    title: "nuxtApp",
+    title: "NuxtApp-Demo",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -28,6 +28,9 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     "@nuxt/typescript-build",
+
+    // composition-api
+    "@nuxtjs/composition-api/module",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -43,13 +46,18 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: "/",
+    // baseURL: "/",
     proxy: true,
   },
 
+  // api proxy cross-domain
   proxy: {
-    "/api": {
-      target: "/api",
+    "/api/": {
+      // https://data.taipei/api/v1/dataset/771472e0-3be1-4449-828e-79b7ad526aff?scope=resourceAquire
+      target: "https://data.epa.gov.tw/api/v2/",
+      pathRewrite: {
+        "^/api": "/",
+      },
     },
   },
 

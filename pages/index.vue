@@ -9,3 +9,5 @@ export default Vue.extend({
   name: "IndexPage",
 });
 </script>
+
+<style></style>

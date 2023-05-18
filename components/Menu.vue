@@ -1,7 +1,6 @@
 <template>
   <el-row class="menu-container">
-    <el-col :span="12">
-      <h5>默认颜色</h5>
+    <el-col>
       <el-menu
         default-active="2"
         class="el-menu-vertical-demo"
@@ -11,35 +10,18 @@
         text-color="#fff"
         active-text-color="#ffd04b"
       >
-        <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>导航一</span>
-          </template>
-          <el-menu-item-group>
-            <template slot="title">分组一</template>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="1-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-          </el-submenu>
-        </el-submenu>
-        <el-menu-item index="2">
-          <i class="el-icon-menu"></i>
-          <span slot="title">导航二</span>
+        <template slot="title"> </template>
+
+        <el-menu-item index="1" @click="router.push('/')">
+          <strong> <i class="el-icon-s-home"></i>首頁</strong>
         </el-menu-item>
-        <el-menu-item index="3" disabled>
-          <i class="el-icon-document"></i>
-          <span slot="title">导航三</span>
+
+        <el-menu-item index="2" @click="router.push('/Info')">
+          <strong> <i class="el-icon-monitor"></i>空氣品質</strong>
         </el-menu-item>
-        <el-menu-item index="4">
-          <i class="el-icon-setting"></i>
-          <span slot="title">导航四</span>
+
+        <el-menu-item index="3" @click="router.push('/About')">
+          <strong><i class="el-icon-warning-outline"></i>關於</strong>
         </el-menu-item>
       </el-menu>
     </el-col>
@@ -47,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "@nuxtjs/composition-api";
+import { onMounted, reactive, useRouter } from "@nuxtjs/composition-api";
 
 const state = reactive({
   activeNames: ["1"],
@@ -55,6 +37,7 @@ const state = reactive({
 
 const handleOpen = () => {};
 const handleClose = () => {};
+const router = useRouter();
 
 onMounted(() => {
   console.log();
@@ -62,9 +45,13 @@ onMounted(() => {
 </script>
 
 <style>
+.menu-title {
+  padding-left: 20px;
+}
+
 .menu-container {
   transition: width 0.28s;
-  width: 240px !important;
+  width: 160px !important;
   background-color: #353c48;
   color: #fff;
   height: 100%;

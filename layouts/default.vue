@@ -15,6 +15,12 @@ onMounted(() => {
 
 <style>
 .main {
-  margin-left: 240px;
+  margin-left: 160px;
+}
+
+body {
+  font-size: 16px;
+  font-family: "微軟正黑體", "Helvetica", "Arial", sans-serif;
+  overflow: hidden;
 }
 </style>

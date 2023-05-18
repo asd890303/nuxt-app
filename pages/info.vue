@@ -1,26 +1,57 @@
 <template>
   <div class="container">
+    <h3>
+      空氣品質指標(AQI)
+      <i class="el-icon-refresh refresh" @click="refresh()"></i>
+    </h3>
     <div class="table-wrap">
-      <el-table :data="state.items" border style="width: 100%">
+      <el-table
+        v-loading="state.loading"
+        class="table"
+        :data="state.items"
+        :align="'center'"
+        :header-align="'center'"
+        style="width: 100%"
+        height="80vh"
+        :show-overflow-tooltip="true"
+      >
         <el-table-column
-          v-for="col in state.fields"
+          v-for="col in state.tableColumn"
           :key="col.id"
           :prop="col.id"
           :label="col.info.label"
-          width="auto"
-          :default-sort="{ prop: 'col.id', order: 'descending' }"
+          sortable
         >
         </el-table-column>
+
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="65"
+          :align="'center'"
+        >
+          <template slot-scope="scope">
+            <el-button @click="handleClick(scope.row)" type="text" size="small">
+              查看
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="state.currentPage"
+        :page-size="100"
+        layout="total, prev, pager, next"
+        :total="1000"
+      >
+      </el-pagination>
     </div>
-    <!-- <div v-for="item in state.items">
-      {{ item.pollutant }} {{ item.county }} : {{ item.status }}
-    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "@nuxtjs/composition-api";
+import { computed, onMounted, reactive } from "@nuxtjs/composition-api";
 import { infoApi } from "@/api/info";
 
 type Fields = {
@@ -62,22 +93,53 @@ const state = reactive({
   date: new Date(),
   items: [] as Item[],
   fields: [] as Fields[],
+  tableColumn: [] as Fields[],
+  loading: true,
+  currentPage: 1,
+});
+
+const displaySimpleColumn = computed(() => {
+  return {
+    siteid: true,
+    sitename: true,
+    county: true,
+    aqi: true,
+    pollutant: true,
+    status: true,
+  };
 });
 
 const getData = async (): Promise<void> => {
   const info = infoApi();
-  const response = await info.getInfo();
+  const response = await info.getInfo().finally(() => {
+    state.loading = false;
+  });
 
   if (response) {
     const data = response.data;
-    console.log(data);
-
-    state.fields = data.fields;
+    const fields = data.fields as Fields[];
+    state.tableColumn = fields.filter((i) => {
+      const fieldName = i.id as keyof typeof displaySimpleColumn.value;
+      return displaySimpleColumn.value[fieldName];
+    });
+    console.log(state.tableColumn);
+    state.fields = fields;
     state.items = data.records;
   }
 };
 
-const setInfo = (): void => {};
+const refresh = () => {
+  state.loading = true;
+  getData();
+};
+
+const handleClick = (row: any) => {
+  console.log(row);
+};
+
+const handleSizeChange = () => {};
+
+const handleCurrentChange = () => {};
 
 onMounted(() => {
   console.log("onMounted,", state.date);
@@ -87,6 +149,27 @@ onMounted(() => {
 
 <style>
 .container {
-  padding: 25px;
+  padding: 0px 15px;
+}
+
+.table-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.table {
+  width: 85%;
+  overflow: scroll;
+}
+
+.refresh {
+  margin-left: 5px;
+  cursor: pointer;
+  transition: 0.31s;
+}
+
+.refresh:hover {
+  transform: rotate(-180deg);
 }
 </style>

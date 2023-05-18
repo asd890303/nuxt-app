@@ -1,33 +1,33 @@
 <template>
-  <div>
+  <div class="container">
     <el-collapse v-model="state.activeNames" @change="handleChange">
       <el-collapse-item title="參考資料" name="1">
         <div>政府資料開放平臺</div>
-        <div>https://data.gov.tw/dataset/40448</div>
-      </el-collapse-item>
-      <el-collapse-item title="反馈 Feedback" name="2">
         <div>
-          控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；
-        </div>
-        <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
-      </el-collapse-item>
-      <el-collapse-item title="效率 Efficiency" name="3">
-        <div>简化流程：设计简洁直观的操作流程；</div>
-        <div>
-          清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；
-        </div>
-        <div>
-          帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。
+          <a href="https://data.gov.tw/dataset/40448">
+            https://data.gov.tw/dataset/40448
+          </a>
         </div>
       </el-collapse-item>
-      <el-collapse-item title="可控 Controllability" name="4">
+      <el-collapse-item title="使用元件" name="2">
+        <div><strong>element UI</strong></div>
         <div>
-          用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；
+          <a href="https://element.eleme.io/">https://element.eleme.io/</a>
         </div>
+
+        <div><strong>nuxtjs</strong></div>
         <div>
-          结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。
+          <a href="https://nuxtjs.org/">https://nuxtjs.org/</a>
+        </div>
+
+        <div><strong>nuxtjs/axios</strong></div>
+        <div>
+          <a href="https://go.nuxtjs.dev/axios">https://go.nuxtjs.dev/axios</a>
         </div>
       </el-collapse-item>
+      <el-collapse-item title="2023.05" name="3"
+        >Kent created.</el-collapse-item
+      >
     </el-collapse>
   </div>
 </template>
@@ -36,7 +36,7 @@
 import { onMounted, reactive } from "@nuxtjs/composition-api";
 
 const state = reactive({
-  activeNames: ["1"],
+  activeNames: [""],
 });
 
 const handleChange = () => {};
@@ -44,3 +44,13 @@ onMounted(() => {
   console.log();
 });
 </script>
+<style>
+.container {
+  padding: 20px;
+}
+
+.el-collapse-item__header {
+  color: #4c3101;
+  font-weight: 700;
+}
+</style>

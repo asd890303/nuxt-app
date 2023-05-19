@@ -25,9 +25,7 @@
           <a href="https://go.nuxtjs.dev/axios">https://go.nuxtjs.dev/axios</a>
         </div>
       </el-collapse-item>
-      <el-collapse-item title="2023.05" name="3"
-        >Kent created.</el-collapse-item
-      >
+      <el-collapse-item title="" name="3">Kent created.</el-collapse-item>
     </el-collapse>
   </div>
 </template>

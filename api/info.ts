@@ -1,8 +1,7 @@
-// import request from '/@/utils/request';
-
+import request from "./request";
 import { useContext } from "@nuxtjs/composition-api";
 
-export function infoApi() {
+export function infoApi(params: { offset: "0"; limit: "1000" }) {
   const { $axios } = useContext();
   $axios.setHeader("Content-Type", "application/json");
 
@@ -16,8 +15,8 @@ export function infoApi() {
       url: "/api/aqx_p_432",
       method: "get",
       params: {
+        ...params,
         api_key: "e8dd42e6-9b8b-43f8-991e-b3dee723a52d",
-        limit: "1000",
       },
     }).catch((e) => {
       console.log(e);

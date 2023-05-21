@@ -1,12 +1,10 @@
 <template>
   <div class="container">
     <h3>
-      空氣品質指標(AQI)
+      追蹤
       <i class="el-icon-refresh refresh" @click="refresh()"></i>
     </h3>
-    <span>
-      https://data.epa.gov.tw/api/v2/aqx_p_432?sort=ImportDate%20desc&format=JSON
-    </span>
+    <span> </span>
     <div class="table-wrap">
       <el-table
         v-loading="state.loading"
@@ -108,7 +106,42 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive } from "@nuxtjs/composition-api";
-import { infoApi } from "@/api/info";
+// import { userStore } from "@/store/userStore";
+
+type Fields = {
+  id: String;
+  type: String;
+  info: {
+    label: String;
+  };
+};
+
+type Item = {
+  sitename: String;
+  county: String;
+  aqi: String;
+  pollutant: String;
+  status: String;
+  so2: String;
+  co: String;
+  o3: String;
+  o3_8hr: String;
+  pm10: String;
+  "pm2.5": String;
+  no2: String;
+  nox: String;
+  no: String;
+  wind_speed: String;
+  wind_direc: String;
+  publishtime: String;
+  co_8hr: String;
+  "pm2.5_avg": String;
+  pm10_avg: String;
+  so2_avg: String;
+  longitude: String;
+  latitude: String;
+  siteid: String;
+};
 
 const state = reactive({
   date: new Date(),
@@ -133,26 +166,7 @@ const displaySimpleColumn = computed(() => {
   };
 });
 
-const getData = async (): Promise<void> => {
-  const info = infoApi();
-  const response = await info
-    .getInfo({ offset: "0", limit: "1000" })
-    .finally(() => {
-      state.loading = false;
-    });
-
-  if (response) {
-    const data = response.data;
-    const fields = data.fields as Fields[];
-    state.tableColumn = fields.filter((i) => {
-      const fieldName = i.id as keyof typeof displaySimpleColumn.value;
-      return displaySimpleColumn.value[fieldName];
-    });
-
-    state.fields = fields;
-    state.items = data.records;
-  }
-};
+const getData = async (): Promise<void> => {};
 
 const refresh = () => {
   state.loading = true;
@@ -173,7 +187,10 @@ const handleCurrentChange = () => {
 };
 
 const handleClose = () => {};
+const { getFollowList } = userStore();
+
 onMounted(() => {
+  console.log(getFollowList);
   console.log("onMounted,", state.date);
   getData();
 });

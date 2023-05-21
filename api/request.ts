@@ -1,5 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-
+import { AxiosRequestConfig } from "axios";
 import { useContext } from "@nuxtjs/composition-api";
 
 const { $axios } = useContext();

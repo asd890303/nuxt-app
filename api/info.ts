@@ -1,7 +1,7 @@
 import request from "./request";
 import { useContext } from "@nuxtjs/composition-api";
 
-export function infoApi(params: { offset: "0"; limit: "1000" }) {
+export function infoApi() {
   const { $axios } = useContext();
   $axios.setHeader("Content-Type", "application/json");
 
@@ -9,7 +9,7 @@ export function infoApi(params: { offset: "0"; limit: "1000" }) {
     baseURL: "",
   });
 
-  const getInfo = async () => {
+  const getInfo = async (params: { offset: "0"; limit: "1000" }) => {
     const res = await service({
       // https://data.epa.gov.tw/api/v2/aqx_p_432?sort=ImportDate%20desc&format=JSON
       url: "/api/aqx_p_432",

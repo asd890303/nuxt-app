@@ -31,6 +31,7 @@ export default {
 
     // composition-api
     "@nuxtjs/composition-api/module",
+    "@pinia/nuxt",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -43,8 +44,26 @@ export default {
     "@nuxt/content",
 
     // https://pinia.vuejs.org/zh/ssr/nuxt.html
-    "@pinia/nuxt",
+    [
+      "@pinia/nuxt",
+      // {
+      //   autoImports: [
+      //     // 自动引入 `defineStore()`
+      //     "defineStore",
+      //     // 自动引入 `defineStore()` 并重命名为 `definePiniaStore()`
+      //     ["defineStore", "definePiniaStore"],
+      //   ],
+      // },
+    ],
   ],
+
+  pinia: {
+    autoImports: [
+      // automatically imports `defineStore`
+      "defineStore", // import { defineStore } from 'pinia'
+      ["defineStore", "definePiniaStore"], // import { defineStore as definePiniaStore } from 'pinia'
+    ],
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

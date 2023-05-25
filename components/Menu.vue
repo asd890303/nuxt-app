@@ -29,10 +29,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, useRouter } from "@nuxtjs/composition-api";
+// import { onMounted, reactive, useRouter } from "@nuxtjs/composition-api";
 
 const state = reactive({
-  activeNames: ["1"],
+  activeNames: ['1'],
 });
 
 const handleOpen = () => {};

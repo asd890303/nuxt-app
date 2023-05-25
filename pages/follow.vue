@@ -105,7 +105,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive } from "@nuxtjs/composition-api";
+// import { computed, onMounted, reactive } from "@nuxtjs/composition-api";
 // import { userStore } from "@/store/userStore";
 
 type Fields = {
@@ -127,7 +127,7 @@ type Item = {
   o3: String;
   o3_8hr: String;
   pm10: String;
-  "pm2.5": String;
+  'pm2.5': String;
   no2: String;
   nox: String;
   no: String;
@@ -135,7 +135,7 @@ type Item = {
   wind_direc: String;
   publishtime: String;
   co_8hr: String;
-  "pm2.5_avg": String;
+  'pm2.5_avg': String;
   pm10_avg: String;
   so2_avg: String;
   longitude: String;
@@ -191,7 +191,7 @@ const { getFollowList } = userStore();
 
 onMounted(() => {
   console.log(getFollowList);
-  console.log("onMounted,", state.date);
+  console.log('onMounted,', state.date);
   getData();
 });
 </script>

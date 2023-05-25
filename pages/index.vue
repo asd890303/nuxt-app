@@ -1,13 +1,8 @@
-<template>
-  <Tutorial />
-</template>
+<template>index</template>
 
-<script lang="ts">
-import Vue from "vue";
-
-export default Vue.extend({
-  name: "IndexPage",
+<script setup>
+// This will work in both `<script setup>` and `<script>`
+definePageMeta({
+  layout: 'custom-index',
 });
 </script>
-
-<style></style>

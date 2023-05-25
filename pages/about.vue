@@ -15,6 +15,11 @@
           <a href="https://element.eleme.io/">https://element.eleme.io/</a>
         </div>
 
+        <div><strong>element-plus</strong></div>
+        <div>
+          <a href="https://element-plus.org/">https://element-plus.org/</a>
+        </div>
+
         <div><strong>nuxtjs</strong></div>
         <div>
           <a href="https://nuxtjs.org/">https://nuxtjs.org/</a>
@@ -31,15 +36,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "@nuxtjs/composition-api";
+// import { onMounted, reactive } from "@nuxtjs/composition-api";
 
 const state = reactive({
-  activeNames: [""],
+  activeNames: [''],
 });
 
 const handleChange = () => {};
 onMounted(() => {
-  console.log();
+  console.log('about');
 });
 </script>
 <style>

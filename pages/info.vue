@@ -27,9 +27,9 @@
           :label="col.info.label"
           sortable
         >
-          <template slot-scope="scope">
+          <template #default="scope">
             <div v-if="col.id === 'pollutant'">
-              <strong> {{ scope.row[col.id] }}</strong>
+              <strong> {{ scope.row && scope.row[col.id] }}</strong>
             </div>
             <div
               v-else-if="
@@ -51,12 +51,8 @@
           width="65"
           :align="'center'"
         >
-          <template slot-scope="scope">
-            <el-button
-              @click="handleClick(scope.row)"
-              type="text"
-              size="medium"
-            >
+          <template #default="scope">
+            <el-button @click="handleClick(scope.row)" text size="default">
               查看
             </el-button>
           </template>
@@ -83,32 +79,34 @@
           class="margin-top"
           title=""
           :column="3"
-          :size="'medium'"
+          :size="'default'"
           border
         >
           <el-descriptions-item
             v-for="(item, key) in state.currentItem"
             :key="key"
           >
-            <template slot="label">
+            <template #label>
               {{ state.fields.find((f) => f.id === key)?.info.label }}
             </template>
             {{ item }}
           </el-descriptions-item>
         </el-descriptions>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="state.showDetail = false">
-            確定
-          </el-button>
-        </span>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button text type="primary" @click="state.showDetail = false">
+              確定
+            </el-button>
+          </span>
+        </template>
       </el-dialog>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive } from "@nuxtjs/composition-api";
-import { infoApi } from "@/api/info";
+// import { computed, onMounted, reactive } from '@nuxtjs/composition-api';
+import { infoApi } from '@/api/info';
 
 const state = reactive({
   date: new Date(),
@@ -134,29 +132,53 @@ const displaySimpleColumn = computed(() => {
 });
 
 const getData = async (): Promise<void> => {
-  const info = infoApi();
-  const response = await info
-    .getInfo({ offset: "0", limit: "1000" })
+  const data = await $fetch('/api/aqx_p_432', {
+    method: 'get',
+    params: {
+      api_key: 'e8dd42e6-9b8b-43f8-991e-b3dee723a52d',
+    },
+  })
+    .then((response) => {
+      console.log(response);
+      const data = response as any;
+      if (data) {
+        const fields = data.fields as Fields[];
+        state.tableColumn = fields.filter((i) => {
+          const fieldName = i.id as keyof typeof displaySimpleColumn.value;
+          return displaySimpleColumn.value[fieldName];
+        });
+
+        state.fields = fields;
+        state.items = data.records;
+      }
+    })
     .finally(() => {
       state.loading = false;
     });
 
-  if (response) {
-    const data = response.data;
-    const fields = data.fields as Fields[];
-    state.tableColumn = fields.filter((i) => {
-      const fieldName = i.id as keyof typeof displaySimpleColumn.value;
-      return displaySimpleColumn.value[fieldName];
-    });
+  // nuxt 2
+  // const info = infoApi();
+  // const response = await info
+  //   .getInfo({ offset: '0', limit: '1000' })
+  //   .finally(() => {
+  //     state.loading = false;
+  //   });
 
-    state.fields = fields;
-    state.items = data.records;
-  }
+  // if (data) {
+  //   const fields = data.fields as Fields[];
+  //   state.tableColumn = fields.filter((i) => {
+  //     const fieldName = i.id as keyof typeof displaySimpleColumn.value;
+  //     return displaySimpleColumn.value[fieldName];
+  //   });
+
+  //   state.fields = fields;
+  //   state.items = data.records;
+  // }
 };
 
 const refresh = () => {
   state.loading = true;
-  getData();
+  // getData();
 };
 
 const handleClick = (row: any) => {
@@ -174,7 +196,7 @@ const handleCurrentChange = () => {
 
 const handleClose = () => {};
 onMounted(() => {
-  console.log("onMounted,", state.date);
+  console.log('onMounted,', state.date);
   getData();
 });
 </script>

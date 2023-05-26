@@ -65,13 +65,12 @@
         :page-sizes="[10, 20, 30, 50]"
         background
         :total="1000"
-        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
 
       <el-dialog
+        v-model="showDetail"
         title="詳細內容"
-        :visible.sync="state.showDetail"
         width="80%"
         :before-close="handleClose"
       >
@@ -93,8 +92,11 @@
           </el-descriptions-item>
         </el-descriptions>
         <template #footer>
-          <span class="dialog-footer">
-            <el-button text type="primary" @click="state.showDetail = false">
+          <span class="dialog-footer" right>
+            <el-button :type="'success'" @click="handleAddToFollow">
+              追蹤
+            </el-button>
+            <el-button type="primary" @click="showDetail = false">
               確定
             </el-button>
           </span>
@@ -106,8 +108,16 @@
 
 <script setup lang="ts">
 // import { computed, onMounted, reactive } from '@nuxtjs/composition-api';
-import { infoApi } from '@/api/info';
+// import { infoApi } from '@/api/info';
 
+import { useUseInfoStore } from "@/store/index";
+import { storeToRefs } from "pinia";
+
+const useStore = useUseInfoStore();
+const { addToFollowList } = useStore;
+const { followList } = storeToRefs(useStore);
+
+const showDetail = ref(false);
 const state = reactive({
   date: new Date(),
   items: [] as Item[],
@@ -116,7 +126,6 @@ const state = reactive({
   loading: true,
   currentPage: 1,
   currentItem: {} as Item,
-  showDetail: false,
 });
 
 const displaySimpleColumn = computed(() => {
@@ -132,10 +141,11 @@ const displaySimpleColumn = computed(() => {
 });
 
 const getData = async (): Promise<void> => {
-  const data = await $fetch('/api/aqx_p_432', {
-    method: 'get',
+  console.log(followList.value);
+  const data = await $fetch("/api/aqx_p_432", {
+    method: "get",
     params: {
-      api_key: 'e8dd42e6-9b8b-43f8-991e-b3dee723a52d',
+      api_key: "e8dd42e6-9b8b-43f8-991e-b3dee723a52d",
     },
   })
     .then((response) => {
@@ -181,22 +191,31 @@ const refresh = () => {
   // getData();
 };
 
-const handleClick = (row: any) => {
+const handleClick = async (row: any) => {
+  console.log("click");
   state.currentItem = row;
-  state.showDetail = true;
+  showDetail.value = true;
 };
 
-const handleSizeChange = () => {
-  // getData({ offset: state.currentPage });
+const handleAddToFollow = (): void => {
+  addToFollowList(state.currentItem);
+  console.log(followList.value);
 };
 
 const handleCurrentChange = () => {
   // getData({ offset: state.currentPage });
 };
 
+const getIsFollowed = (id: String): boolean => {
+  const hasFollowed = !!followList.value.find((i) => i.siteid === id);
+  console.log(hasFollowed);
+  return hasFollowed;
+};
+
 const handleClose = () => {};
+
 onMounted(() => {
-  console.log('onMounted,', state.date);
+  console.log("onMounted,", state.date);
   getData();
 });
 </script>

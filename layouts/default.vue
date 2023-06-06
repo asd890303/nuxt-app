@@ -7,9 +7,17 @@
 
 <script setup lang="ts">
 // import { onMounted } from "@nuxtjs/composition-api";
-import Menu from '@/components/Menu.vue';
+import Menu from "@/components/Menu.vue";
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+
+const nuxtApp = useNuxtApp();
+// element-plus/icons-vue https://segmentfault.com/a/1190000043619438
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  nuxtApp.vueApp.component(key, component);
+}
+
 onMounted(() => {
-  console.log('layout');
+  console.log("layout");
 });
 </script>
 
@@ -20,7 +28,7 @@ onMounted(() => {
 
 body {
   font-size: 16px;
-  font-family: '微軟正黑體', 'Helvetica', 'Arial', sans-serif;
+  font-family: "微軟正黑體", "Helvetica", "Arial", sans-serif;
   overflow: hidden;
 }
 </style>

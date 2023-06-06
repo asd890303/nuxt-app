@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-collapse v-model="state.activeNames" @change="handleChange">
+    <el-collapse v-model="state.activeNames">
       <el-collapse-item title="參考資料" name="1">
         <div>政府資料開放平臺</div>
         <div>
@@ -39,12 +39,11 @@
 // import { onMounted, reactive } from "@nuxtjs/composition-api";
 
 const state = reactive({
-  activeNames: [''],
+  activeNames: [""],
 });
 
-const handleChange = () => {};
 onMounted(() => {
-  console.log('about');
+  console.log("about");
 });
 </script>
 <style>

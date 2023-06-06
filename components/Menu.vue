@@ -20,7 +20,11 @@
           <strong> <i class="el-icon-monitor"></i>空氣品質</strong>
         </el-menu-item>
 
-        <el-menu-item index="3" @click="router.push('/About')">
+        <el-menu-item index="3" @click="router.push('/Follow')">
+          <strong> <i class="el-icon-monitor"></i>追蹤</strong>
+        </el-menu-item>
+
+        <el-menu-item index="10" @click="router.push('/About')">
           <strong><i class="el-icon-warning-outline"></i>關於</strong>
         </el-menu-item>
       </el-menu>
@@ -32,7 +36,7 @@
 // import { onMounted, reactive, useRouter } from "@nuxtjs/composition-api";
 
 const state = reactive({
-  activeNames: ['1'],
+  activeNames: ["1"],
 });
 
 const handleOpen = () => {};
@@ -50,11 +54,11 @@ onMounted(() => {
 }
 
 .menu-container {
-  transition: width 0.28s;
+  /* transition: width 0.28s; */
   width: 160px !important;
   background-color: #353c48;
   color: #fff;
-  height: 100%;
+  height: 100vh;
   position: fixed;
   font-size: 14px;
   top: 0;

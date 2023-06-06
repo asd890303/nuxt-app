@@ -1,8 +1,5 @@
-<template>index</template>
+<template>
+  <div class="container">home</div>
+</template>
 
-<script setup>
-// This will work in both `<script setup>` and `<script>`
-definePageMeta({
-  layout: 'custom-index',
-});
-</script>
+<script setup lang="ts"></script>

@@ -4,9 +4,11 @@
       空氣品質指標(AQI)
       <i class="el-icon-refresh refresh" @click="refresh()"></i>
     </h3>
+    <!-- <el-skeleton :rows="2" animated :loading="state.loading" /> -->
     <span>
       https://data.epa.gov.tw/api/v2/aqx_p_432?sort=ImportDate%20desc&format=JSON
     </span>
+    <Tips />
     <div class="table-wrap">
       <el-table
         v-loading="state.loading"
@@ -24,7 +26,7 @@
           v-for="col in state.tableColumn"
           :key="col.id"
           :prop="col.id"
-          :label="col.info.label"
+          :label="col.info.label.toString()"
           sortable
         >
           <template #default="scope">
@@ -67,42 +69,42 @@
         :total="1000"
         @current-change="handleCurrentChange"
       />
-
-      <el-dialog
-        v-model="showDetail"
-        title="詳細內容"
-        width="80%"
-        :before-close="handleClose"
-      >
-        <el-descriptions
-          class="margin-top"
-          title=""
-          :column="3"
-          :size="'default'"
-          border
-        >
-          <el-descriptions-item
-            v-for="(item, key) in state.currentItem"
-            :key="key"
-          >
-            <template #label>
-              {{ state.fields.find((f) => f.id === key)?.info.label }}
-            </template>
-            {{ item }}
-          </el-descriptions-item>
-        </el-descriptions>
-        <template #footer>
-          <span class="dialog-footer" right>
-            <el-button :type="'success'" @click="handleAddToFollow">
-              追蹤
-            </el-button>
-            <el-button type="primary" @click="showDetail = false">
-              確定
-            </el-button>
-          </span>
-        </template>
-      </el-dialog>
     </div>
+    <el-dialog
+      v-model="showDetail"
+      title="詳細內容"
+      width="80%"
+      :before-close="() => (showDetail = false)"
+      append-to-body
+    >
+      <el-descriptions
+        class="margin-top"
+        title=""
+        :column="3"
+        :size="'default'"
+        border
+      >
+        <el-descriptions-item
+          v-for="(item, key) in state.currentItem"
+          :key="key"
+        >
+          <template #label>
+            {{ state.fields.find((f) => f.id === key)?.info.label }}
+          </template>
+          {{ item }}
+        </el-descriptions-item>
+      </el-descriptions>
+      <template #footer>
+        <span class="dialog-footer" right>
+          <el-button :type="'success'" @click="handleAddToFollow">
+            追蹤
+          </el-button>
+          <el-button type="primary" @click="showDetail = false">
+            確定
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -112,6 +114,7 @@
 
 import { useUseInfoStore } from "@/store/index";
 import { storeToRefs } from "pinia";
+import { ElMessage } from "element-plus";
 
 const useStore = useUseInfoStore();
 const { addToFollowList } = useStore;
@@ -195,10 +198,25 @@ const handleClick = async (row: any) => {
   console.log("click");
   state.currentItem = row;
   showDetail.value = true;
+
+  console.log(showDetail.value);
 };
 
 const handleAddToFollow = (): void => {
-  addToFollowList(state.currentItem);
+  if (followList.value.find((i) => i.siteid === state.currentItem.siteid)) {
+    ElMessage({
+      message: "已經追蹤",
+      type: "warning",
+    });
+  } else {
+    addToFollowList(state.currentItem);
+
+    ElMessage({
+      message: "追蹤成功",
+      type: "success",
+    });
+  }
+
   console.log(followList.value);
 };
 

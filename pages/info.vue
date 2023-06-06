@@ -110,14 +110,13 @@
 
 <script setup lang="ts">
 // import { computed, onMounted, reactive } from '@nuxtjs/composition-api';
-// import { infoApi } from '@/api/info';
 
 import { useUseInfoStore } from "@/store/index";
 import { storeToRefs } from "pinia";
 import { ElMessage } from "element-plus";
 
 const useStore = useUseInfoStore();
-const { addToFollowList } = useStore;
+const { addToFollowList, setColFields } = useStore;
 const { followList } = storeToRefs(useStore);
 
 const showDetail = ref(false);
@@ -161,6 +160,7 @@ const getData = async (): Promise<void> => {
           return displaySimpleColumn.value[fieldName];
         });
 
+        setColFields(fields);
         state.fields = fields;
         state.items = data.records;
       }

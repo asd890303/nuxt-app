@@ -52,6 +52,10 @@ onMounted(() => {
 }
 
 .el-collapse-item__header {
+  font-size: 14px;
+}
+
+.el-collapse-item__header {
   color: #4c3101;
   font-weight: 700;
 }

@@ -5,11 +5,18 @@ export const useUseInfoStore = defineStore({
   state: () => {
     return {
       followList: [] as Item[],
+      fields: [] as Fields[],
     };
   },
   actions: {
     addToFollowList(item: Item) {
-      this.filtersList.push(item);
+      this.filtersList.push({
+        ...item,
+        addTime: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+      });
+    },
+    setColFields(fields: Fields[]) {
+      this.fields = fields;
     },
   },
   getters: {

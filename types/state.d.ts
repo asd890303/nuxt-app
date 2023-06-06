@@ -31,4 +31,5 @@ type Item = {
   longitude: String;
   latitude: String;
   siteid: String;
+  addTime?: String;
 };

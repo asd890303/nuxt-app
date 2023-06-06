@@ -29,6 +29,6 @@ onMounted(() => {
 body {
   font-size: 16px;
   font-family: "微軟正黑體", "Helvetica", "Arial", sans-serif;
-  overflow: hidden;
+  overflow: auto;
 }
 </style>
